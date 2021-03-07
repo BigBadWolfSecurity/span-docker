@@ -1,0 +1,3 @@
+setuptools
+networkx
+Cython
