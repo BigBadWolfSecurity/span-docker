@@ -1,18 +1,18 @@
-FROM fedora:34
+FROM fedora:35
 
 LABEL maintainer="karl@bigbadwolfsecurity.com"
 
 RUN useradd span
 WORKDIR /home/span
 
-RUN dnf -y install policycoreutils libselinux-devel libsepol-devel \
-    python3 @development-tools flex bison python3-devel git pandoc
+RUN dnf -y install policycoreutils policycoreutils-devel policycoreutils-python-utils libselinux-devel libsepol-devel \
+    python3 python3-pip @development-tools flex bison python3-devel git pandoc
 
 ADD requirements.txt .
 
 RUN pip3 install -r requirements.txt
 
-RUN git clone https://github.com/SELinuxProject/setools.git
+RUN git clone https://github.com/BigBadWolfSecurity/setools.git
 
 WORKDIR /home/span/setools
 
@@ -32,4 +32,4 @@ RUN pip3 install -r python_requirements.txt
 
 USER span
 
-CMD ["jupyter", "notebook", "--ip=0.0.0.0"]
+CMD ["jupyter", "notebook", "--ip", "0.0.0.0", "--port", "8888"]
